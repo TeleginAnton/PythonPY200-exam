@@ -44,10 +44,10 @@ class LinkedList(MutableSequence, ABC):
     def step_by_step_on_nodes(self, index: int) -> Node:
         """ Функция выполняет перемещение по узлам до указанного индекса. И возвращает узел. """
         if not isinstance(index, int):
-            raise TypeError()
+            raise TypeError("the expected index type is an integer")
 
         if not 0 <= index < self.__len:  # для for
-            raise IndexError()
+            raise IndexError("the expected index type is an integer")
 
         current_node = self._head
         for _ in range(index):
@@ -67,7 +67,7 @@ class LinkedList(MutableSequence, ABC):
 
     def __delitem__(self, index: int):
         if not isinstance(index, int):
-            raise TypeError()
+            raise TypeError("the expected index type is an integer")
 
     def __len__(self):
         return self.__len
@@ -83,9 +83,9 @@ class LinkedList(MutableSequence, ABC):
 
     def insert(self, index: int, value: Any) -> None:
         if not isinstance(index, int):
-            raise TypeError()
+            raise TypeError("the expected index type is an integer")
 
-        insert_node = Node(value)
+        insert_node = self.CLASS_NODE(value)
 
         if index == 0:
             insert_node.next = self._head
@@ -123,7 +123,7 @@ class DoubleLinkedList(LinkedList, ABC):
 
     def __delitem__(self, index: int):
         if not isinstance(index, int):
-            raise TypeError()
+            raise TypeError("the expected index type is an integer")
 
     def __len__(self):
         return self.__len
@@ -136,13 +136,15 @@ class DoubleLinkedList(LinkedList, ABC):
 
 
 if __name__ == "__main__":
-    list_ = [1, 2, 3]
+    list_ = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
     linked_list = LinkedList(list_)
+
+    linked_list.insert(3, "Test_works")
     print(linked_list)
 
-    linked_list.insert(2, "test")
-    print(linked_list)
+    list2 = list_[::-1]
 
-    test2 = DoubleLinkedList([15, 16, 5])
-    test2.insert(15, 2)
+    test2 = DoubleLinkedList(list2)
+    test2.insert(5, "Test_works")
     print(test2)
