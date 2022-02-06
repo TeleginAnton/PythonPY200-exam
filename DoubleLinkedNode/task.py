@@ -3,19 +3,23 @@ from typing import Any, Optional
 
 class Node:
     """ Класс, который описывает узел связного списка. """
+
     def __init__(self, value: Any, next_: Optional["Node"] = None):
 
         self.value = value
+        self.next = next_
 
-        self.next_ = None
-        self.set_next(next_)
+    @property
+    def next(self):
+        return self._next
 
-    def set_next(self, next_: Optional["Node"] = None) -> None:
+    @next.setter
+    def next(self, next_: Optional["Node"]):
         self.is_valid(next_)
-        self.next_ = next_
+        self._next = next_
 
     def __repr__(self) -> str:
-        return f"Node({self.value}, {None})" if self.next_ is None else f"Node({self.value}, Node({self.next_}))"
+        return f"Node({self.value}, {None})" if self.next is None else f"Node({self.value}, Node({self.next}))"
 
     def __str__(self) -> str:
         return str(self.value)
@@ -37,15 +41,20 @@ class DoubleLinkedNode(Node):
         return self._prev
 
     @prev.setter
-    def prev(self, prev: Optional["Node"] = None) -> None:
+    def prev(self, prev: Optional["Node"]):
         self.is_valid(prev)
         self._prev = None if prev is None else prev
 
     def __repr__(self) -> str:
         next_prev = None if self.prev is None else f"DoubleLinkedNode({self.prev})"
-        next_repr = None if self.next_ is None else f"DoubleLinkedNode({self.next_})"
+        next_repr = None if self.next is None else f"DoubleLinkedNode({self.next})"
 
         return f"DoubleLinkedNode({self.value}, {next_prev}, {next_repr})"
+
+    @staticmethod
+    def is_valid(node: Any) -> None:
+        if not isinstance(node, (type(None), DoubleLinkedNode)):
+            raise TypeError
 
 
 if __name__ == "__main__":
@@ -56,3 +65,4 @@ if __name__ == "__main__":
     test3 = DoubleLinkedNode(100)
     test4 = DoubleLinkedNode(100, test3)
     print(repr(test4))
+
